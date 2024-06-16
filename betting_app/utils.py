@@ -122,16 +122,16 @@ def read_data_from_csv(csv, eliminate_outlier=True):
         for i, value in enumerate(zip(model_input, model_output)):
             model, score = value
             
-            print(model[-1], score)
+            #print(model[-1], score)
             if model[-1][0] > model[-1][1] and score[0] < score[1]:
-                print('outlier1')
+                #print('outlier1')
                 index_to_remove.append(i)
                 #model_input_no_outlier = np.delete(model_input_no_outlier, i, axis=0)
                 #model_output_no_outlier = np.delete(model_output_no_outlier, i, axis=0)
                 #print(f'removed outlier index {i}')
             
             elif model[-1][1] > model[-1][0] and score[1] < score[0]:
-                print('outlier2')
+                #print('outlier2')
                 index_to_remove.append(i)
                 #model_input_no_outlier = np.delete(model_input_no_outlier, i, axis=0)
                 #model_output_no_outlier = np.delete(model_output_no_outlier, i, axis=0)
