@@ -1,0 +1,14 @@
+cython
+pandas
+numpy
+asyncio
+pandas-ta
+requests
+python-binance
+#sklearn
+scipy
+matplotlib
+tensorflow
+python-telegram-bot
+openpyxl
+flask
