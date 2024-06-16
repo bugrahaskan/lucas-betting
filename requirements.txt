@@ -12,3 +12,4 @@ scipy
 python-telegram-bot
 openpyxl
 flask
+gunicorn
