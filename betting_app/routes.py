@@ -10,6 +10,7 @@ from flask import jsonify
 import telegram
 
 from .utils import read_config
+from .models import Database
 
 config = read_config()
 
@@ -22,6 +23,8 @@ URL: Final = config['TELEGRAM']['URL']
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
+
+data = Database('data.db', 'sample_data.csv')
 
 @app.route('/')
 def index():
@@ -67,6 +70,14 @@ def test_webhook():
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, bot_welcome))
+
+        elif text == '/name':
+            query = data.fetch_name_data('Raghav Jaisinghani')
+
+            #await BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
+            loop_send_msg = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop_send_msg)
+            loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].value[0]))
 
         return 'msg'
 

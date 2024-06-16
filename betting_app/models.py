@@ -41,6 +41,32 @@ class Database:
         self.commit_db()
         self.close_db()
 
+    def fetch_bulk_data(self):
+        import pandas as pd
+
+        self.connect_db()
+
+        features = pd.read_sql('SELECT * FROM table_features', self._conn)
+        targets = pd.read_sql('SELECT * FROM table_targets', self._conn)
+        
+        self.commit_db()
+        self.close_db()
+
+        return features, targets
+    
+    def fetch_name_data(self, name):
+        import pandas as pd
+
+        self.connect_db()
+
+        query = f"""SELECT * FROM table_features WHERE players == '{name}'"""
+        name_df = pd.read_sql(query, self._conn)
+
+        self.commit_db()
+        self.close_db()
+
+        return name_df
+
     def commit_db(self):
         self._conn.commit()
 
