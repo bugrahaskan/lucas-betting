@@ -18,4 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 #ENV DB_PASSWORD=your_db_password
 
 # Command to run your app
-CMD ["python", "betting-app.py"]
+CMD ["python", "run.py"]
