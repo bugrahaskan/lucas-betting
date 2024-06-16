@@ -33,15 +33,32 @@ def test():
     print('ok')
     return 'test'
 
-@app.route('/set_webhook', methods=['GET', 'POST'])
+@app.route('/set_webhook', methods=['GET','POST'])
+def set_webhook():
+    try:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(async_set_webhook())
+        return "Webhook set successfully!"
+    except Exception as e:
+        return f"Failed to set webhook: {e}"
+
 async def async_set_webhook():
-    s = await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
-    if s:
-        return "webhook setup ok"
-    else:
-        return "webhook setup failed"
+    
+    await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
 
 @app.route('/test_webhook', methods=['GET','POST'])
 def test_webhook():
+    
+    if request.method == 'POST':
+        update = telegram.Update.de_json(request.get_json(force=True), BOT)
 
-    return 'test webhook'
+        chat_id = update.message.chat.id
+        msg_id = update.message.message_id
+
+        text = update.message.text.encode('utf-8').decode()
+        print("got text message :", text)
+
+        return 'msg'
+
+    return 'ok'
