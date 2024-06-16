@@ -42,6 +42,6 @@ async def async_set_webhook():
         return "webhook setup failed"
 
 @app.route('/test_webhook', methods=['GET','POST'])
-def test():
+def test_webhook():
 
     return 'test webhook'
