@@ -48,7 +48,7 @@ async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
 
 @app.route('/test_webhook', methods=['GET','POST'])
-def test_webhook():
+async def test_webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
@@ -63,7 +63,7 @@ def test_webhook():
             bot_welcome = """
                 This is Luca's Sports Betting App...
                 """
-            BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
+            await BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
 
         return 'msg'
 
