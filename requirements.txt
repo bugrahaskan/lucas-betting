@@ -5,7 +5,8 @@ asyncio
 #pandas-ta
 requests
 #python-binance
-sklearn
+#sklearn
+scikit-learn
 scipy
 #matplotlib
 #tensorflow
