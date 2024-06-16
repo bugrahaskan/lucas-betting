@@ -18,5 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 #ENV DB_PASSWORD=your_db_password
 
 # Command to run your app
-CMD ["python", "run.py"]
-#CMD ["gunicorn", "-b", "0.0.0.0:8000", "run:app"]
+#CMD ["python", "run.py"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "run:app"]
