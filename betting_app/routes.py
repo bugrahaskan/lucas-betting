@@ -59,6 +59,12 @@ def test_webhook():
         text = update.message.text.encode('utf-8').decode()
         print("got text message :", text)
 
+        if text == "/start":
+            bot_welcome = """
+                This is Luca's Sports Betting App...
+                """
+            BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
+
         return 'msg'
 
     return 'ok'
