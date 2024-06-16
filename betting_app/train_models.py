@@ -29,7 +29,7 @@ class Model_DecisionTreeRegressor:
         y_pred_series = pd.DataFrame(self.y_pred, columns=['pred1','pred2'])
 
         res = pd.concat([y_test_series, y_pred_series], axis=1)
-        res.apply(transform_odds)
+        res = res.apply(transform_odds)
 
         mse = mean_squared_error(self.y_test, self.y_pred)
 
@@ -68,7 +68,7 @@ class Model_GradientBoosting:
         y_pred_series = pd.DataFrame(self.y_pred, columns=['pred1','pred2'])
 
         res = pd.concat([y_test_series, y_pred_series], axis=1)
-        res.apply(transform_odds)
+        res = res.apply(transform_odds)
 
         mse = mean_squared_error(self.y_test, self.y_pred)
 
@@ -104,7 +104,7 @@ class Model_KNNRegressor:
         y_pred_series = pd.DataFrame(self.y_pred, columns=['pred1','pred2'])
 
         res = pd.concat([y_test_series, y_pred_series], axis=1)
-        res.apply(transform_odds)
+        res = res.apply(transform_odds)
 
         mse = mean_squared_error(self.y_test, self.y_pred)
 
@@ -140,7 +140,7 @@ class Model_RandomTreeRegressor:
         y_pred_series = pd.DataFrame(self.y_pred, columns=['pred1','pred2'])
 
         res = pd.concat([y_test_series, y_pred_series], axis=1)
-        res.apply(transform_odds)
+        res = res.apply(transform_odds)
 
         mse = mean_squared_error(self.y_test, self.y_pred)
 
