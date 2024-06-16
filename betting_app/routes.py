@@ -78,7 +78,7 @@ def test_webhook():
             #await BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
-            loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_numpy[0]))
+            loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_string()))
 
         return 'msg'
 
