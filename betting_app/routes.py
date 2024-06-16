@@ -43,7 +43,7 @@ async def async_set_webhook():
     if os.path.exists(cert_path) and os.path.isfile(cert_path):
         print("Certificate file exists and is accessible.")
         print(os.getcwd()+'/cert.pem')
-        await BOT.setWebhook(url='{URL}/test'.format(URL=URL), certificate=telegram.InputFile(cert_path))
+        await BOT.setWebhook(url='{URL}/test'.format(URL=URL))
     else:
         print('certificate not read')
     #s = await BOT.setWebhook(url='{URL}/test'.format(URL=URL), certificate=telegram.InputFile('../cert.pem'))

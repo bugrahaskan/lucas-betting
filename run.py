@@ -16,4 +16,5 @@ if __name__ == "__main__":
             threaded=config['SETTINGS']['THREADED'],
             debug=config['SETTINGS']['DEBUG'],
             #ssl_context=('cert.pem', 'key.pem'))
-            ssl_context=('nginx-selfsigned.crt', 'nginx-selfsigned.key'))
+            #ssl_context=('nginx-selfsigned.crt', 'nginx-selfsigned.key')
+            )
