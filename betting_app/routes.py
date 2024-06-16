@@ -25,5 +25,11 @@ BOT = telegram.Bot(token=TOKEN)
 
 @app.route('/')
 def index():
+    print('ok')
+    return 'test'
+
+@app.route('/test', methods=['GET'])
+def test():
+    print('ok')
     return 'test'
 
