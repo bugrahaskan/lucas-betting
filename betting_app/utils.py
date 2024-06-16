@@ -140,11 +140,11 @@ def read_data_from_csv(csv, eliminate_outlier=True):
         model_input_no_outlier = np.delete(model_input, index_to_remove, axis=0)
         model_output_no_outlier = np.delete(model_output, index_to_remove, axis=0)
 
-        return model_input_no_outlier, model_output_no_outlier
+        return features_df, targets_df, model_input_no_outlier, model_output_no_outlier
     
     else:
         
-        return model_input, model_output
+        return features_df, targets_df,model_input, model_output
     
 def model_input_ratio(model_input):
     import numpy as np
@@ -167,3 +167,7 @@ def model_input_ratio(model_input):
     model_input_ratio = np.array(model_input_ratio)
 
     return model_input_ratio
+
+def process_data(data):
+    '''Process any given line of data'''
+    pass

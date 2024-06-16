@@ -2,7 +2,7 @@ from .utils import read_data_from_csv, model_input_ratio, transform_odds
 
 class Model_DecisionTreeRegressor:
     def __init__(self, csv):
-        self.model_input, self.model_output = read_data_from_csv(csv)
+        _, _, self.model_input, self.model_output = read_data_from_csv(csv)
         self.model_input = model_input_ratio(self.model_input)
 
         from sklearn.model_selection import train_test_split
@@ -38,7 +38,7 @@ class Model_DecisionTreeRegressor:
 
 class Model_GradientBoosting:
     def __init__(self, csv):
-        self.model_input, self.model_output = read_data_from_csv(csv)
+        _, _, self.model_input, self.model_output = read_data_from_csv(csv)
         self.model_input = model_input_ratio(self.model_input)
 
         from sklearn.model_selection import train_test_split
@@ -77,7 +77,7 @@ class Model_GradientBoosting:
 
 class Model_KNNRegressor:
     def __init__(self, csv):
-        self.model_input, self.model_output = read_data_from_csv(csv)
+        _, _, self.model_input, self.model_output = read_data_from_csv(csv)
         self.model_input = model_input_ratio(self.model_input)
 
         from sklearn.model_selection import train_test_split
@@ -113,7 +113,7 @@ class Model_KNNRegressor:
 
 class Model_RandomTreeRegressor:
     def __init__(self, csv):
-        self.model_input, self.model_output = read_data_from_csv(csv)
+        _, _, self.model_input, self.model_output = read_data_from_csv(csv)
         self.model_input = model_input_ratio(self.model_input)
 
         from sklearn.model_selection import train_test_split
