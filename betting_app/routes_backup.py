@@ -28,12 +28,36 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
+application = Application.builder().token(TOKEN).build()
+asyncio.run(Application.initialize(application))
+#asyncio.run(Bot.initialize(BOT))
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/webhook'.format(URL=URL))
 
 async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+
+#async def start_command(update, context):
+#    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+#    print('start_command')
+#    await asyncio.sleep(1)
+
+#async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#    print('help_command')
+#    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #print('help_command')
+#    #await asyncio.sleep(1)
+
+#async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#    msg = context.args[0]
+#    print(msg)
+#    chat_id = update.message.chat.id
+#    msg_id = update.message.message_id
+#
+#    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 @app.route('/')
 def index():
@@ -60,6 +84,7 @@ def webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
+        asyncio.run(application.process_update(update))
 
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
@@ -91,3 +116,21 @@ def webhook():
 
     return 'ok'
 
+# Register handlers
+application.add_handler(CommandHandler("start", send_message))
+application.add_handler(CommandHandler("help", send_message))
+application.add_handler(CommandHandler("name", send_message))
+
+# Set bot commands
+commands = [
+    BotCommand("start", "Start the bot"),
+    BotCommand("help", "Get help"),
+    BotCommand("name", "Give name")
+]
+
+async def set_commands(commands):
+    await BOT.set_my_commands(commands)
+
+loop_set_command = asyncio.new_event_loop()
+asyncio.set_event_loop(loop_set_command)
+loop_set_command.run_until_complete(set_commands(commands))
