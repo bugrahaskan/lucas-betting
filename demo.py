@@ -10,7 +10,7 @@ from flask import current_app as app
 from flask import jsonify
 import telegram
 from telegram import Update
-from telegram.ext import ContextTypes, Application, CommandHandler, MessageHandler
+from telegram.ext import filters, ContextTypes, Application, CommandHandler, MessageHandler
 
 from betting_app.utils import read_config, extract_args
 from betting_app.models import Database
