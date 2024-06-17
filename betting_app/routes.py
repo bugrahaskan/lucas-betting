@@ -12,7 +12,7 @@ import telegram
 from telegram import BotCommand, Update, Bot
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-from .utils import read_config
+from .utils import read_config, extract_args
 from .models import Database
 
 config = read_config()
@@ -33,7 +33,7 @@ application = Application.builder().token(TOKEN).build()
 #asyncio.run(Bot.initialize(BOT))
 
 async def async_set_webhook():
-    await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
+    await BOT.setWebhook(url='{URL}/webhook'.format(URL=URL))
 
 async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
@@ -59,25 +59,6 @@ async def send_message(chat_id, msg_id, msg):
 #    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
 #    #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
-# Register handlers
-application.add_handler(CommandHandler("start"))
-application.add_handler(CommandHandler("help"))
-application.add_handler(CommandHandler("name"))
-
-# Set bot commands
-commands = [
-    BotCommand("start", "Start the bot"),
-    BotCommand("help", "Get help"),
-    BotCommand("name", "Give name")
-]
-
-async def set_commands(commands):
-    await BOT.set_my_commands(commands)
-
-loop_set_command = asyncio.new_event_loop()
-asyncio.set_event_loop(loop_set_command)
-loop_set_command.run_until_complete(set_commands(commands))
-
 @app.route('/')
 def index():
     print('ok')
@@ -98,8 +79,8 @@ def set_webhook():
     except Exception as e:
         return f"Failed to set webhook: {e}"
 
-@app.route('/test_webhook', methods=['GET','POST'])
-def test_webhook():
+@app.route('/webhook', methods=['GET','POST'])
+def webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
@@ -120,7 +101,10 @@ def test_webhook():
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, bot_welcome))
 
-        elif text == '/name':
+        elif text.startswith('/name'):
+            player1, player2 = extract_args('/name', text)
+            # ...
+
             query = data.fetch_name_data('Raghav Jaisinghani')
 
             loop_send_msg = asyncio.new_event_loop()
@@ -131,3 +115,22 @@ def test_webhook():
         return 'msg'
 
     return 'ok'
+
+# Register handlers
+application.add_handler(CommandHandler("start", webhook))
+application.add_handler(CommandHandler("help", webhook))
+application.add_handler(CommandHandler("name", webhook))
+
+# Set bot commands
+commands = [
+    BotCommand("start", "Start the bot"),
+    BotCommand("help", "Get help"),
+    BotCommand("name", "Give name")
+]
+
+async def set_commands(commands):
+    await BOT.set_my_commands(commands)
+
+loop_set_command = asyncio.new_event_loop()
+asyncio.set_event_loop(loop_set_command)
+loop_set_command.run_until_complete(set_commands(commands))

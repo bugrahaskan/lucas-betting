@@ -16,6 +16,22 @@ def read_config(config_file='config.ini'):
 
     return config
 
+def extract_args(command, text):
+    import re
+
+    pattern = f"{command}\s+(.+)"
+
+    match = re.search(pattern, text)
+    
+    if match:
+        # Extract the names part from the matched group
+        names_str = match.group(1).strip()
+        # Split by comma and strip whitespace from each name
+        names_list = [name.strip() for name in names_str.split(',')]
+        return names_list
+    else:
+        return []
+
 def transform_odds(odd: float):
     #return (1/odd) * 100
     return 1/odd
