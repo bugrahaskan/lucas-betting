@@ -28,9 +28,6 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
-update = telegram.Update.de_json(request.get_json(force=True), BOT)
-updater = Updater(bot=BOT, update_queue=update)
-updater.start_webhook()
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/webhook'.format(URL=URL))
@@ -62,7 +59,9 @@ def set_webhook():
 def webhook():
     
     if request.method == 'POST':
-        #update = telegram.Update.de_json(request.get_json(force=True), BOT)
+        update = telegram.Update.de_json(request.get_json(force=True), BOT)
+        updater = Updater(bot=BOT, update_queue=update)
+        updater.start_webhook()
 
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
