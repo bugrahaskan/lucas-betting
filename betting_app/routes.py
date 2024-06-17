@@ -97,7 +97,8 @@ def test_webhook():
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
         #dispatcher.process_update(update)
 
-        asyncio.run(application.update_queue.put(update))
+        #asyncio.run(application.update_queue.put(update))
+        application.process_update(update)
         
 
         return 'msg'
