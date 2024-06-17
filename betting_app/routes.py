@@ -28,12 +28,17 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
+application = Application.builder().token(TOKEN).build()
+asyncio.run(Application.initialize(application))
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/webhook'.format(URL=URL))
 
-async def send_message(chat_id, msg_id, msg):
+async def send_message_backup(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+
+async def send_message(update, context):
+    await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
 
 @app.route('/')
 def index():
@@ -62,8 +67,33 @@ def webhook():
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
         updater = Updater(bot=BOT, update_queue=update)
         updater.start_webhook()
+        
+        return 'msg'
 
-        chat_id = update.message.chat.id
+    return 'ok'
+
+# Register handlers
+application.add_handler(CommandHandler("start", send_message))
+application.add_handler(CommandHandler("help", send_message))
+application.add_handler(CommandHandler("name", send_message))
+
+# Set bot commands
+commands = [
+    BotCommand("start", "Start the bot"),
+    BotCommand("help", "Get help"),
+    BotCommand("name", "Give name")
+]
+
+async def set_commands(commands):
+    await BOT.set_my_commands(commands)
+
+loop_set_command = asyncio.new_event_loop()
+asyncio.set_event_loop(loop_set_command)
+loop_set_command.run_until_complete(set_commands(commands))
+
+
+'''
+chat_id = update.message.chat.id
         msg_id = update.message.message_id
 
         text = update.message.text.encode('utf-8').decode()
@@ -87,22 +117,4 @@ def webhook():
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_string()))
-
-        
-        return 'msg'
-
-    return 'ok'
-
-# Set bot commands
-commands = [
-    BotCommand("start", "Start the bot"),
-    BotCommand("help", "Get help"),
-    BotCommand("name", "Give name")
-]
-
-async def set_commands(commands):
-    await BOT.set_my_commands(commands)
-
-loop_set_command = asyncio.new_event_loop()
-asyncio.set_event_loop(loop_set_command)
-loop_set_command.run_until_complete(set_commands(commands))
+'''
