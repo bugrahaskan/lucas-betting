@@ -41,7 +41,7 @@ async def send_message(chat_id, msg_id, msg):
 #    print('start_command')
 #    await asyncio.sleep(1)
 
-async def help_command(update, context):
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print('help_command')
     await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
     #print('help_command')
@@ -94,7 +94,18 @@ def test_webhook():
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
         #dispatcher.process_update(update)
 
-        chat_id = update.message.chat.id
+        asyncio.run(application.update_queue.put(update))
+
+        
+
+        return 'msg'
+
+    return 'ok'
+
+
+
+'''
+chat_id = update.message.chat.id
         msg_id = update.message.message_id
 
         text = update.message.text.encode('utf-8').decode()
@@ -115,8 +126,4 @@ def test_webhook():
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_string()))
-
-        return 'msg'
-
-    return 'ok'
-
+'''
