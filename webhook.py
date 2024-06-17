@@ -137,7 +137,7 @@ if __name__ == '__main__':
     ]
 
     async def set_commands(commands):
-        await BOT.set_my_commands(commands)
+        await application.bot.set_my_commands(commands)
 
     loop_set_command = asyncio.new_event_loop()
     asyncio.set_event_loop(loop_set_command)
