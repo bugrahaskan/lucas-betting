@@ -37,8 +37,10 @@ async def async_set_webhook():
 async def send_message_backup(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
-async def send_message(update, context):
-    await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+async def send_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    print('send_msg')
+    await BOT.sendMessage(chat_id=update.message.chat.id, text='deneme')
+    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
 
 @app.route('/')
 def index():
