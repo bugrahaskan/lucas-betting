@@ -42,6 +42,7 @@ async def send_message(chat_id, msg_id, msg):
 #    await asyncio.sleep(1)
 
 async def help_command(update, context):
+    print('help_command')
     await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
     #print('help_command')
     #await asyncio.sleep(1)
