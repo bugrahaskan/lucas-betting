@@ -12,8 +12,8 @@ import telegram
 from telegram import BotCommand, Update, Bot
 from telegram.ext import Application, CommandHandler, ContextTypes, Updater
 
-from .utils import read_config, extract_args
-from .models import Database
+from betting_app.utils import read_config, extract_args
+from betting_app.models import Database
 
 app = Flask(__name__)
 
