@@ -30,14 +30,21 @@ global BOT
 BOT = telegram.Bot(token=TOKEN)
 dispatcher = Dispatcher(BOT, None, use_context=True)
 
+async def async_set_webhook():
+    await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
+
 async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 async def start_command(update, context):
-    await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+    print('start_command')
+    await asyncio.sleep(1)
 
 async def help_command(update, context):
-    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+    #await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+    print('help_command')
+    await asyncio.sleep(1)
 
 
 # Register handlers
@@ -70,10 +77,6 @@ def set_webhook():
         return "Webhook set successfully!"
     except Exception as e:
         return f"Failed to set webhook: {e}"
-
-async def async_set_webhook():
-    
-    await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
 
 @app.route('/test_webhook', methods=['GET','POST'])
 def test_webhook():
