@@ -43,7 +43,7 @@ def echo(update: Update, context: ContextTypes):
     update.message.reply_text(update.message.text)
 
 # Replace 'YOUR_TOKEN' with your actual bot token
-updater = Updater(TOKEN)
+updater = Updater(bot=TOKEN)
 
 dispatcher = updater.dispatcher
 
