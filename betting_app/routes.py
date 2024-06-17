@@ -41,17 +41,25 @@ async def send_message(chat_id, msg_id, msg):
 #    print('start_command')
 #    await asyncio.sleep(1)
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print('help_command')
-    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
-    #print('help_command')
-    #await asyncio.sleep(1)
+#async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#    print('help_command')
+#    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #print('help_command')
+#    #await asyncio.sleep(1)
+
+def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
 
 
 # Register handlers
 #application.add_handler(CommandHandler("start", start_command))
 application.add_handler(CommandHandler("help", help_command))
 #application.add_handler(CommandHandler("name", help_command))
+
+@application.on_update
+def handle_update(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Dispatch the update to the appropriate handler
+    application.dispatcher.process_update(update)
 
 # Set bot commands
 commands = [
