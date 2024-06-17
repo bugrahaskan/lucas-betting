@@ -56,11 +56,6 @@ def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 application.add_handler(CommandHandler("help", help_command))
 #application.add_handler(CommandHandler("name", help_command))
 
-@application.on_update
-def handle_update(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Dispatch the update to the appropriate handler
-    application.dispatcher.process_update(update)
-
 # Set bot commands
 commands = [
     BotCommand("start", "Start the bot"),
@@ -102,9 +97,7 @@ def test_webhook():
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
         #dispatcher.process_update(update)
 
-        #asyncio.run(application.update_queue.put(update))
-        # Process the update through the application
-        application.process_update(update)
+        asyncio.run(application.update_queue.put(update))
         
 
         return 'msg'
