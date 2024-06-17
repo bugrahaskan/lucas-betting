@@ -11,6 +11,7 @@ from flask import jsonify
 import telegram
 from telegram import BotCommand, Update, Bot
 from telegram.ext import Application, CommandHandler, ContextTypes, Updater
+from queue import Queue
 
 from .utils import read_config, extract_args
 from .models import Database
@@ -42,8 +43,9 @@ def help_command(update: Update, context: ContextTypes):
 def echo(update: Update, context: ContextTypes):
     update.message.reply_text(update.message.text)
 
-# Replace 'YOUR_TOKEN' with your actual bot token
-updater = Updater(bot=TOKEN)
+# Updater from Telegram API
+update_queue = Queue()
+updater = Updater(bot=TOKEN, update_queue=update_queue)
 
 dispatcher = updater.dispatcher
 
