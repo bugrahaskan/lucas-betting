@@ -83,7 +83,7 @@ async def main():
 #bot_thread = threading.Thread(target=run_telegram_bot)
 #bot_thread.start()
 
-application = asyncio.run(main())
+#application = asyncio.run(main())
 
 @app.route('/')
 def index():
@@ -97,6 +97,8 @@ def test():
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
+    application = asyncio.run(main())
+
     if request.method == 'POST':
         update = Update.de_json(request.get_json(force=True), application.bot)
         #application.update_queue.put(update)
@@ -104,6 +106,8 @@ def webhook():
         return 'ok'
 
 async def async_set_webhook():
+    application = asyncio.run(main())
+    
     await application.bot.setWebhook(url='{URL}/webhook'.format(URL=URL))
 
 @app.route('/set_webhook', methods=['GET','POST'])

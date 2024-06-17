@@ -12,7 +12,6 @@ with app.app_context():
     import betting_app.routes
 
 if __name__ == "__main__":
-    asyncio.run(betting_app.routes.main())
     app.run(host=config['SETTINGS']['HOST'],
             port=config['SETTINGS']['PORT'],
             threaded=config['SETTINGS']['THREADED'],
