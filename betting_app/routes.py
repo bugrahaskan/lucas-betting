@@ -68,9 +68,9 @@ commands = [
 async def set_commands(commands):
     await BOT.set_my_commands(commands)
 
-loop_set_command = asyncio.new_event_loop()
-asyncio.set_event_loop(loop_set_command)
-loop_set_command.run_until_complete(set_commands(commands))
+#loop_set_command = asyncio.new_event_loop()
+#asyncio.set_event_loop(loop_set_command)
+#loop_set_command.run_until_complete(set_commands(commands))
 
 @app.route('/')
 def index():
