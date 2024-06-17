@@ -50,7 +50,7 @@ async def help_command(update, context):
 
 # Register handlers
 #application.add_handler(CommandHandler("start", start_command))
-#application.add_handler(CommandHandler("help", help_command))
+application.add_handler(CommandHandler("help", help_command))
 #application.add_handler(CommandHandler("name", help_command))
 
 # Set bot commands
