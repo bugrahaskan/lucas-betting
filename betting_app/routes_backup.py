@@ -10,7 +10,7 @@ from flask import current_app as app
 from flask import jsonify
 import telegram
 from telegram import BotCommand, Update, Bot
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes, Updater
 
 from .utils import read_config, extract_args
 from .models import Database
@@ -115,6 +115,11 @@ def webhook():
         return 'msg'
 
     return 'ok'
+
+# Set up webhook URL handler
+updater = Updater(token=TOKEN, use_context=True)
+dispatcher = updater.dispatcher
+dispatcher.add_handler(CommandHandler("start", start))
 
 # Register handlers
 application.add_handler(CommandHandler("start", send_message))
