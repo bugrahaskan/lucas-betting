@@ -51,7 +51,7 @@ dispatcher = updater.dispatcher
 # Add handlers for different commands and messages
 dispatcher.add_handler(CommandHandler("start", start))
 dispatcher.add_handler(CommandHandler("help", help_command))
-dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+dispatcher.add_handler(CommandHandler("echo", echo))
 
 # Start the Bot with polling
 updater.start_polling()
