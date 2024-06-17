@@ -98,7 +98,7 @@ def test_webhook():
         #dispatcher.process_update(update)
 
         #asyncio.run(application.update_queue.put(update))
-        application.process_update(update)
+        asyncio.run(application.process_update(update))
         
 
         return 'msg'
