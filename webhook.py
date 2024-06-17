@@ -57,8 +57,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat.id
     msg_id = update.message.message_id
 
-    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
-    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    #await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    await context.bot.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
     #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 @app.route('/')
