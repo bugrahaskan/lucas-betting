@@ -83,7 +83,7 @@ def set_webhook():
 def webhook():
     
     if request.method == 'POST':
-        update = telegram.Update.de_json(request.get_json(force=True), BOT)
+        update = Update.de_json(request.get_json(force=True), BOT)
         asyncio.run(application.process_update(update))
 
         chat_id = update.message.chat.id
