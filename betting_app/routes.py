@@ -55,9 +55,10 @@ async def trigger_bot():
     application.add_handler(CommandHandler("echo", echo))
 
     # Start the Bot with polling
-    await application.start_polling()
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
-    await application.idle()
+    await application.initialize()
+    await application.start()
+    await application.updater.start_polling()
+    await application.stop()
+    await application.shutdown()
 
 asyncio.run(trigger_bot())
