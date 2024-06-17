@@ -29,6 +29,7 @@ data = Database('data.db', 'sample_data.csv')
 global BOT
 BOT = telegram.Bot(token=TOKEN)
 application = Application.builder().token(TOKEN).build()
+asyncio.run(Application.initialize(application))
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
@@ -66,9 +67,10 @@ commands = [
 async def set_commands(commands):
     await BOT.set_my_commands(commands)
 
-loop_set_command = asyncio.new_event_loop()
-asyncio.set_event_loop(loop_set_command)
-loop_set_command.run_until_complete(set_commands(commands))
+#loop_set_command = asyncio.new_event_loop()
+#asyncio.set_event_loop(loop_set_command)
+#loop_set_command.run_until_complete(set_commands(commands))
+asyncio.run(set_commands(commands))
 
 @app.route('/')
 def index():
