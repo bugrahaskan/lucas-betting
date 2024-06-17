@@ -33,7 +33,7 @@ dispatcher = Dispatcher(BOT, None, use_context=True)
 async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
-def start(update, context):
+def start_command(update, context):
     update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
 
 def help_command(update, context):
@@ -41,7 +41,7 @@ def help_command(update, context):
 
 
 # Register handlers
-dispatcher.add_handler(CommandHandler("start", start))
+dispatcher.add_handler(CommandHandler("start", start_command))
 dispatcher.add_handler(CommandHandler("help", help_command))
 
 # Set bot commands
@@ -88,7 +88,7 @@ def test_webhook():
         text = update.message.text.encode('utf-8').decode()
         print("got text message :", text)
 
-        if text == "/start":
+        if text == "/test":
             bot_welcome = """
                 This is Luca's Sports Betting App...
                 """
