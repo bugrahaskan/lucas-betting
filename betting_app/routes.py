@@ -9,8 +9,8 @@ from flask import Flask, request
 from flask import current_app as app
 from flask import jsonify
 import telegram
-from telegram import BotCommand, Update, Bot
-from telegram.ext import Application, CommandHandler, ContextTypes
+#from telegram import BotCommand, Update, Bot
+#from telegram.ext import Application, CommandHandler, ContextTypes
 
 from .utils import read_config, extract_args
 from .models import Database
@@ -77,7 +77,7 @@ def webhook():
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, bot_welcome))
 
         elif text.startswith('/name'):
-            player1, player2 = extract_args('/name', text)
+            #player1, player2 = extract_args('/name', text)
             # more here
 
             query = data.fetch_name_data('Raghav Jaisinghani')
