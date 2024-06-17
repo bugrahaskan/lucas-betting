@@ -9,6 +9,8 @@ from flask import Flask, request
 from flask import current_app as app
 from flask import jsonify
 import telegram
+from telegram import BotCommand
+from telegram.ext import Updater, CommandHandler, Dispatcher
 
 from .utils import read_config
 from .models import Database
@@ -22,10 +24,32 @@ TOKEN: Final = config['TELEGRAM']['TOKEN']
 USERNAME: Final = config['TELEGRAM']['BOT_USERNAME']
 URL: Final = config['TELEGRAM']['URL']
 
+data = Database('data.db', 'sample_data.csv')
+
 global BOT
 BOT = telegram.Bot(token=TOKEN)
+dispatcher = Dispatcher(BOT, None, use_context=True)
 
-data = Database('data.db', 'sample_data.csv')
+async def send_message(chat_id, msg_id, msg):
+    await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+
+def start(update, context):
+    update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+
+def help_command(update, context):
+    update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+
+
+# Register handlers
+dispatcher.add_handler(CommandHandler("start", start))
+dispatcher.add_handler(CommandHandler("help", help_command))
+
+# Set bot commands
+commands = [
+    BotCommand("start", "Start the bot"),
+    BotCommand("help", "Get help")
+]
+BOT.bot.set_my_commands(commands)
 
 @app.route('/')
 def index():
@@ -56,6 +80,7 @@ def test_webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
+        #dispatcher.process_update(update)
 
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
@@ -84,5 +109,3 @@ def test_webhook():
 
     return 'ok'
 
-async def send_message(chat_id, msg_id, msg):
-    await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
