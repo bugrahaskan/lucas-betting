@@ -41,22 +41,24 @@ async def send_message(chat_id, msg_id, msg):
 #    print('start_command')
 #    await asyncio.sleep(1)
 
-#async def help_command(update, context):
-#    #await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
-#    print('help_command')
-#    await asyncio.sleep(1)
+async def help_command(update, context):
+    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+    #print('help_command')
+    #await asyncio.sleep(1)
 
 
 # Register handlers
-#application.add_handler(CommandHandler("start", start))
+#application.add_handler(CommandHandler("start", start_command))
 #application.add_handler(CommandHandler("help", help_command))
-#application.add_handler(CommandHandler("set", set_timer))
+#application.add_handler(CommandHandler("name", help_command))
 
 # Set bot commands
 commands = [
     BotCommand("start", "Start the bot"),
-    BotCommand("help", "Get help")
+    BotCommand("help", "Get help"),
+    BotCommand("name", "Give name")
 ]
+
 async def set_commands(commands):
     await BOT.set_my_commands(commands)
 
@@ -101,7 +103,7 @@ def test_webhook():
             bot_welcome = """
                 This is Luca's Sports Betting App...
                 """
-            #await BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
+            
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, bot_welcome))
@@ -109,7 +111,6 @@ def test_webhook():
         elif text == '/name':
             query = data.fetch_name_data('Raghav Jaisinghani')
 
-            #await BOT.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_string()))
