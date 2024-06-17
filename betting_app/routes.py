@@ -67,7 +67,7 @@ def webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
-        asyncio.run(application.process_update(update))
+        #asyncio.run(application.process_update(update))
         #updater = Updater(bot=BOT, update_queue=update)
         #updater.initialize()
         
