@@ -10,7 +10,7 @@ from flask import current_app as app
 from flask import jsonify
 import telegram
 from telegram import BotCommand
-from telegram.ext import Updater, CommandHandler, Dispatcher
+from telegram.ext import Updater, CommandHandler
 
 from .utils import read_config
 from .models import Database
@@ -28,6 +28,8 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
+updater = Updater(TOKEN, use_context=True)
+dispatcher = updater.dispatcher
 #dispatcher = Dispatcher(BOT, None, use_context=True)
 
 async def async_set_webhook():
