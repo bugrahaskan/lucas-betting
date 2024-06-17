@@ -28,8 +28,8 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
-updater = Updater(TOKEN, use_context=True)
-dispatcher = updater.dispatcher
+#updater = Updater(TOKEN, use_context=True)
+#dispatcher = updater.dispatcher
 #dispatcher = Dispatcher(BOT, None, use_context=True)
 
 async def async_set_webhook():
@@ -93,7 +93,7 @@ def test_webhook():
         text = update.message.text.encode('utf-8').decode()
         print("got text message :", text)
 
-        if text == "/test":
+        if text == "/start":
             bot_welcome = """
                 This is Luca's Sports Betting App...
                 """
