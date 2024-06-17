@@ -33,11 +33,11 @@ dispatcher = Dispatcher(BOT, None, use_context=True)
 async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
-def start_command(update, context):
-    update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+async def start_command(update, context):
+    await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
 
-def help_command(update, context):
-    update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+async def help_command(update, context):
+    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
 
 
 # Register handlers
@@ -49,7 +49,7 @@ commands = [
     BotCommand("start", "Start the bot"),
     BotCommand("help", "Get help")
 ]
-BOT.bot.set_my_commands(commands)
+BOT.set_my_commands(commands)
 
 @app.route('/')
 def index():
