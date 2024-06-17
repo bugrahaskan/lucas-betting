@@ -19,7 +19,7 @@ def read_config(config_file='config.ini'):
 def extract_args(command, text):
     import re
 
-    pattern = f"{command}\s+(.+)"
+    pattern = fr"{command}\s+(.+)"
 
     match = re.search(pattern, text)
     
