@@ -43,12 +43,12 @@ def help_command(update: Update, context: ContextTypes):
 def echo(update: Update, context: ContextTypes):
     update.message.reply_text(update.message.text)
 
-async def trigger_bot():
-    # Updater from Telegram API
-    update_queue = Queue()
-    #updater = Updater(bot=TOKEN, update_queue=update_queue)
-    application = Application.builder().token(TOKEN).update_queue(update_queue).build()
+# Updater from Telegram API
+update_queue = Queue()
+#updater = Updater(bot=TOKEN, update_queue=update_queue)
+application = Application.builder().token(TOKEN).update_queue(update_queue).build()
 
+async def trigger_bot():
     # Add handlers for different commands and messages
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
@@ -68,7 +68,7 @@ commands = [
 ]
 
 async def set_commands(commands):
-    await BOT.set_my_commands(commands)
+    await application.bot.set_my_commands(commands)
 
 loop_set_command = asyncio.new_event_loop()
 asyncio.set_event_loop(loop_set_command)
