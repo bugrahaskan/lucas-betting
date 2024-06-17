@@ -84,7 +84,7 @@ def webhook():
     
     if request.method == 'POST':
         update = Update.de_json(request.get_json(force=True), BOT)
-        asyncio.run(application.process_update(update))
+        #asyncio.run(application.process_update(update))
 
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
