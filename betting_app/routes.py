@@ -50,8 +50,13 @@ async def send_message(chat_id, msg_id, msg):
 #    #await asyncio.sleep(1)
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    msg = context.args[0]
+    print(msg)
+    chat_id = update.message.chat.id
+    msg_id = update.message.message_id
 
+    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 # Register handlers
 #application.add_handler(CommandHandler("start", start_command))
