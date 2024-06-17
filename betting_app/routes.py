@@ -117,9 +117,9 @@ def webhook():
     return 'ok'
 
 # Register handlers
-application.add_handler(CommandHandler("start", send_message))
-application.add_handler(CommandHandler("help", send_message))
-application.add_handler(CommandHandler("name", send_message))
+application.add_handler(CommandHandler("start", webhook))
+application.add_handler(CommandHandler("help", webhook))
+application.add_handler(CommandHandler("name", webhook))
 
 # Set bot commands
 commands = [
