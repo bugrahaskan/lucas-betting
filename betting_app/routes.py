@@ -39,7 +39,7 @@ async def send_message_backup(chat_id, msg_id, msg):
 
 async def send_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print('send_msg')
-    await BOT.sendMessage(chat_id=update.message.chat.id, text='deneme')
+    await BOT.send_message(chat_id=update.message.chat.id, text='deneme')
     #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
 
 @app.route('/')
