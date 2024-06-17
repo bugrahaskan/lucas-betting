@@ -51,14 +51,14 @@ async def send_message(chat_id, msg_id, msg):
 #    #print('help_command')
 #    #await asyncio.sleep(1)
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    msg = context.args[0]
-    print(msg)
+async def help_command(update: Update):
+    #msg = context.args[0]
+    #print(msg)
     chat_id = update.message.chat.id
     msg_id = update.message.message_id
 
-    #await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
-    await context.bot.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    #await context.bot.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
     #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 @app.route('/')
@@ -86,7 +86,6 @@ def webhook():
     
     if request.method == 'POST':
         update = Update.de_json(request.get_json(force=True), BOT)
-        #asyncio.run(application.process_update(update))
 
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
@@ -103,9 +102,15 @@ def webhook():
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, bot_welcome))
 
-        elif text.startswith('/name'):
+        if text == '/help':
+            loop_send_msg = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop_send_msg)
+            loop_send_msg.run_until_complete(help_command(update=update))
+
+        if text.startswith('/name'):
             player1, player2 = extract_args('/name', text)
             # more here
+            print(player1, player2)
 
             query = data.fetch_name_data('Raghav Jaisinghani')
 
@@ -119,29 +124,24 @@ def webhook():
     return 'ok'
 
 if __name__ == '__main__':
-    # Set up webhook URL handler
-    #updater = Updater(token=TOKEN, use_context=True)
-    #dispatcher = updater.dispatcher
-    #dispatcher.add_handler(CommandHandler("start", start))
-
     # Register handlers
     #application.add_handler(CommandHandler("start", send_message))
-    application.add_handler(CommandHandler("help", help_command))
+    #application.add_handler(CommandHandler("help", help_command))
     #application.add_handler(CommandHandler("name", send_message))
 
     # Set bot commands
-    commands = [
-        BotCommand("start", "Start the bot"),
-        BotCommand("help", "Get help"),
-        BotCommand("name", "Give name")
-    ]
+    #commands = [
+    #    BotCommand("start", "Start the bot"),
+    #    BotCommand("help", "Get help"),
+    #    BotCommand("name", "Give name")
+    #]
 
-    async def set_commands(commands):
-        await application.bot.set_my_commands(commands)
+    #async def set_commands(commands):
+    #    await application.bot.set_my_commands(commands)
 
-    loop_set_command = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop_set_command)
-    loop_set_command.run_until_complete(set_commands(commands))
+    #loop_set_command = asyncio.new_event_loop()
+    #asyncio.set_event_loop(loop_set_command)
+    #loop_set_command.run_until_complete(set_commands(commands))
 
     app.run(host=config['SETTINGS']['HOST'],
             port=config['SETTINGS']['PORT'],
