@@ -66,7 +66,7 @@ def webhook():
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
         updater = Updater(bot=BOT, update_queue=update)
-        updater.start_webhook()
+        updater.initialize()
         
         return 'msg'
 
