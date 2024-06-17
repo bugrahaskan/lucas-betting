@@ -43,19 +43,21 @@ def help_command(update: Update, context: ContextTypes):
 def echo(update: Update, context: ContextTypes):
     update.message.reply_text(update.message.text)
 
-# Updater from Telegram API
-update_queue = Queue()
-updater = Updater(bot=TOKEN, update_queue=update_queue)
+async def trigger_bot():
+    # Updater from Telegram API
+    update_queue = Queue()
+    #updater = Updater(bot=TOKEN, update_queue=update_queue)
+    application = Application.builder().token(TOKEN).update_queue(update_queue).build()
 
-dispatcher = updater.dispatcher
+    # Add handlers for different commands and messages
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("echo", echo))
 
-# Add handlers for different commands and messages
-dispatcher.add_handler(CommandHandler("start", start))
-dispatcher.add_handler(CommandHandler("help", help_command))
-dispatcher.add_handler(CommandHandler("echo", echo))
+    # Start the Bot with polling
+    await application.start_polling()
 
-# Start the Bot with polling
-updater.start_polling()
+    # Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
+    await application.idle()
 
-# Run the bot until you press Ctrl-C or the process receives SIGINT, SIGTERM or SIGABRT
-updater.idle()
+asyncio.run(trigger_bot())
