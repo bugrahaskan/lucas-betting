@@ -1,1 +1,1 @@
-web: python demo.py
+web: gunicorn webhook:app

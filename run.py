@@ -1,5 +1,6 @@
 from flask import Flask
 import asyncio
+from typing import Final
 
 from betting_app.utils import read_config
 
