@@ -9,8 +9,8 @@ from flask import Flask, request
 from flask import current_app as app
 from flask import jsonify
 import telegram
-from telegram import BotCommand
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram import BotCommand, Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 
 from .utils import read_config
 from .models import Database
@@ -28,9 +28,7 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
-updater = Updater(TOKEN, use_context=True)
-dispatcher = updater.dispatcher
-#dispatcher = Dispatcher(BOT, None, use_context=True)
+application = Application.builder().token(TOKEN).build()
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
@@ -50,15 +48,16 @@ async def send_message(chat_id, msg_id, msg):
 
 
 # Register handlers
-#dispatcher.add_handler(CommandHandler("start", start_command))
-#dispatcher.add_handler(CommandHandler("help", help_command))
+#application.add_handler(CommandHandler("start", start))
+#application.add_handler(CommandHandler("help", help_command))
+#application.add_handler(CommandHandler("set", set_timer))
 
 # Set bot commands
-#commands = [
-#    BotCommand("start", "Start the bot"),
-#    BotCommand("help", "Get help")
-#]
-#BOT.set_my_commands(commands)
+commands = [
+    BotCommand("start", "Start the bot"),
+    BotCommand("help", "Get help")
+]
+BOT.set_my_commands(commands)
 
 @app.route('/')
 def index():
