@@ -9,7 +9,7 @@ from flask import Flask, request
 from flask import current_app as app
 from flask import jsonify
 import telegram
-from telegram import BotCommand, Update
+from telegram import BotCommand, Update, Bot
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 from .utils import read_config
@@ -30,6 +30,7 @@ global BOT
 BOT = telegram.Bot(token=TOKEN)
 application = Application.builder().token(TOKEN).build()
 asyncio.run(Application.initialize(application))
+asyncio.run(Bot.initialize(BOT))
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
