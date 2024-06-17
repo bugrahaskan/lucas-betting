@@ -54,6 +54,19 @@ async def trigger_bot():
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("echo", echo))
 
+    commands = [
+        BotCommand("start", "Start the bot"),
+        BotCommand("help", "Get help"),
+        BotCommand("echo", "Echo me")
+    ]
+
+    async def set_commands(commands):
+        await BOT.set_my_commands(commands)
+
+    loop_set_command = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop_set_command)
+    loop_set_command.run_until_complete(set_commands(commands))
+
     # Start the Bot with polling
     await application.initialize()
     await application.start()
