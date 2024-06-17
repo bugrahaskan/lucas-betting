@@ -28,7 +28,7 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
-dispatcher = Dispatcher(BOT, None, use_context=True)
+#dispatcher = Dispatcher(BOT, None, use_context=True)
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
@@ -36,27 +36,27 @@ async def async_set_webhook():
 async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
-async def start_command(update, context):
-    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
-    print('start_command')
-    await asyncio.sleep(1)
+#async def start_command(update, context):
+#    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+#    print('start_command')
+#    await asyncio.sleep(1)
 
-async def help_command(update, context):
-    #await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
-    print('help_command')
-    await asyncio.sleep(1)
+#async def help_command(update, context):
+#    #await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    print('help_command')
+#    await asyncio.sleep(1)
 
 
 # Register handlers
-dispatcher.add_handler(CommandHandler("start", start_command))
-dispatcher.add_handler(CommandHandler("help", help_command))
+#dispatcher.add_handler(CommandHandler("start", start_command))
+#dispatcher.add_handler(CommandHandler("help", help_command))
 
 # Set bot commands
-commands = [
-    BotCommand("start", "Start the bot"),
-    BotCommand("help", "Get help")
-]
-BOT.set_my_commands(commands)
+#commands = [
+#    BotCommand("start", "Start the bot"),
+#    BotCommand("help", "Get help")
+#]
+#BOT.set_my_commands(commands)
 
 @app.route('/')
 def index():
