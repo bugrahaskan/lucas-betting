@@ -28,8 +28,8 @@ data = Database('data.db', 'sample_data.csv')
 
 global BOT
 BOT = telegram.Bot(token=TOKEN)
-#application = Application.builder().token(TOKEN).build()
-#asyncio.run(Application.initialize(application))
+application = Application.builder().token(TOKEN).build()
+asyncio.run(Application.initialize(application))
 #asyncio.run(Bot.initialize(BOT))
 
 async def async_set_webhook():
@@ -84,7 +84,7 @@ def webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
-        #asyncio.run(application.process_update(update))
+        asyncio.run(application.process_update(update))
 
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
@@ -117,9 +117,9 @@ def webhook():
     return 'ok'
 
 # Register handlers
-application.add_handler(CommandHandler("start", webhook))
-application.add_handler(CommandHandler("help", webhook))
-application.add_handler(CommandHandler("name", webhook))
+application.add_handler(CommandHandler("start", send_message))
+application.add_handler(CommandHandler("help", send_message))
+application.add_handler(CommandHandler("name", send_message))
 
 # Set bot commands
 commands = [
