@@ -117,9 +117,9 @@ def webhook():
     return 'ok'
 
 # Set up webhook URL handler
-updater = Updater(token=TOKEN, use_context=True)
-dispatcher = updater.dispatcher
-dispatcher.add_handler(CommandHandler("start", start))
+#updater = Updater(token=TOKEN, use_context=True)
+#dispatcher = updater.dispatcher
+#dispatcher.add_handler(CommandHandler("start", start))
 
 # Register handlers
 #application.add_handler(CommandHandler("start", send_message))
