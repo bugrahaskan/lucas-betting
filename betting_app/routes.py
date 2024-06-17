@@ -29,13 +29,13 @@ data = Database('data.db', 'sample_data.csv')
 global BOT
 BOT = telegram.Bot(token=TOKEN)
 application = Application.builder().token(TOKEN).build()
-asyncio.run(Application.initialize(application))
-asyncio.run(Bot.initialize(BOT))
+#asyncio.run(Application.initialize(application))
+#asyncio.run(Bot.initialize(BOT))
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
 
-async def send_message2(chat_id, msg_id, msg):
+async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 #async def start_command(update, context):
@@ -49,20 +49,20 @@ async def send_message2(chat_id, msg_id, msg):
 #    #print('help_command')
 #    #await asyncio.sleep(1)
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    msg = context.args[0]
-    print(msg)
-    chat_id = update.message.chat.id
-    msg_id = update.message.message_id
-
-    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
-    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
-    #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
+#async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#    msg = context.args[0]
+#    print(msg)
+#    chat_id = update.message.chat.id
+#    msg_id = update.message.message_id
+#
+#    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 # Register handlers
-#application.add_handler(CommandHandler("start", start_command))
-application.add_handler(CommandHandler("help", help_command))
-#application.add_handler(CommandHandler("name", help_command))
+application.add_handler(CommandHandler("start"))
+application.add_handler(CommandHandler("help"))
+application.add_handler(CommandHandler("name"))
 
 # Set bot commands
 commands = [
@@ -74,9 +74,9 @@ commands = [
 async def set_commands(commands):
     await BOT.set_my_commands(commands)
 
-#loop_set_command = asyncio.new_event_loop()
-#asyncio.set_event_loop(loop_set_command)
-#loop_set_command.run_until_complete(set_commands(commands))
+loop_set_command = asyncio.new_event_loop()
+asyncio.set_event_loop(loop_set_command)
+loop_set_command.run_until_complete(set_commands(commands))
 
 @app.route('/')
 def index():
@@ -105,14 +105,6 @@ def test_webhook():
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
         asyncio.run(application.process_update(update))
 
-        
-        return 'msg'
-
-    return 'ok'
-
-
-
-'''
         chat_id = update.message.chat.id
         msg_id = update.message.message_id
 
@@ -134,4 +126,8 @@ def test_webhook():
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_string()))
-'''
+
+        
+        return 'msg'
+
+    return 'ok'
