@@ -30,17 +30,34 @@ global BOT
 BOT = telegram.Bot(token=TOKEN)
 application = Application.builder().token(TOKEN).build()
 asyncio.run(Application.initialize(application))
+#asyncio.run(Bot.initialize(BOT))
 
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/webhook'.format(URL=URL))
 
-async def send_message_backup(chat_id, msg_id, msg):
+async def send_message(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
-async def send_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    print('send_msg')
-    await BOT.send_message(chat_id=update.message.chat.id, text='deneme')
-    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+#async def start_command(update, context):
+#    #await update.message.reply_text('Hello! I am your bot. Use /help to see available commands.')
+#    print('start_command')
+#    await asyncio.sleep(1)
+
+#async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#    print('help_command')
+#    await update.message.reply_text('These are the available commands:\n/start - Start the bot\n/help - Get help')
+#    #print('help_command')
+#    #await asyncio.sleep(1)
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    msg = context.args[0]
+    print(msg)
+    chat_id = update.message.chat.id
+    msg_id = update.message.message_id
+
+    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 @app.route('/')
 def index():
@@ -66,37 +83,10 @@ def set_webhook():
 def webhook():
     
     if request.method == 'POST':
-        update = telegram.Update.de_json(request.get_json(force=True), BOT)
+        update = Update.de_json(request.get_json(force=True), BOT)
         #asyncio.run(application.process_update(update))
-        #updater = Updater(bot=BOT, update_queue=update)
-        #updater.initialize()
-        
-        return 'msg'
 
-    return 'ok'
-
-# Register handlers
-application.add_handler(CommandHandler("start", send_message))
-application.add_handler(CommandHandler("help", send_message))
-application.add_handler(CommandHandler("name", send_message))
-
-# Set bot commands
-commands = [
-    BotCommand("start", "Start the bot"),
-    BotCommand("help", "Get help"),
-    BotCommand("name", "Give name")
-]
-
-async def set_commands(commands):
-    await BOT.set_my_commands(commands)
-
-loop_set_command = asyncio.new_event_loop()
-asyncio.set_event_loop(loop_set_command)
-loop_set_command.run_until_complete(set_commands(commands))
-
-
-'''
-chat_id = update.message.chat.id
+        chat_id = update.message.chat.id
         msg_id = update.message.message_id
 
         text = update.message.text.encode('utf-8').decode()
@@ -112,7 +102,7 @@ chat_id = update.message.chat.id
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, bot_welcome))
 
         elif text.startswith('/name'):
-            #player1, player2 = extract_args('/name', text)
+            player1, player2 = extract_args('/name', text)
             # more here
 
             query = data.fetch_name_data('Raghav Jaisinghani')
@@ -120,4 +110,32 @@ chat_id = update.message.chat.id
             loop_send_msg = asyncio.new_event_loop()
             asyncio.set_event_loop(loop_send_msg)
             loop_send_msg.run_until_complete(send_message(chat_id, msg_id, query['aces'].to_string()))
-'''
+
+        
+        return 'msg'
+
+    return 'ok'
+
+# Set up webhook URL handler
+#updater = Updater(token=TOKEN, use_context=True)
+#dispatcher = updater.dispatcher
+#dispatcher.add_handler(CommandHandler("start", start))
+
+# Register handlers
+#application.add_handler(CommandHandler("start", send_message))
+application.add_handler(CommandHandler("help", help_command))
+#application.add_handler(CommandHandler("name", send_message))
+
+# Set bot commands
+commands = [
+    BotCommand("start", "Start the bot"),
+    BotCommand("help", "Get help"),
+    BotCommand("name", "Give name")
+]
+
+async def set_commands(commands):
+    await BOT.set_my_commands(commands)
+
+loop_set_command = asyncio.new_event_loop()
+asyncio.set_event_loop(loop_set_command)
+loop_set_command.run_until_complete(set_commands(commands))
