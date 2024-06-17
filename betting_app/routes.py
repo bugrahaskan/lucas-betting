@@ -35,7 +35,7 @@ asyncio.run(Bot.initialize(BOT))
 async def async_set_webhook():
     await BOT.setWebhook(url='{URL}/test_webhook'.format(URL=URL))
 
-async def send_message(chat_id, msg_id, msg):
+async def send_message2(chat_id, msg_id, msg):
     await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
 #async def start_command(update, context):
@@ -49,13 +49,13 @@ async def send_message(chat_id, msg_id, msg):
 #    #print('help_command')
 #    #await asyncio.sleep(1)
 
-def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = context.args[0]
     print(msg)
     chat_id = update.message.chat.id
     msg_id = update.message.message_id
 
-    BOT.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
+    await BOT.send_message(chat_id=chat_id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
     #await context.bot.send_message(chat_id=update.effective_chat.id, text='These are the available commands:\n/start - Start the bot\n/help - Get help')
     #await BOT.sendMessage(chat_id=chat_id, text=msg, reply_to_message_id=msg_id)
 
@@ -103,12 +103,9 @@ def test_webhook():
     
     if request.method == 'POST':
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
-        #dispatcher.process_update(update)
-
-        #asyncio.run(application.update_queue.put(update))
         asyncio.run(application.process_update(update))
-        
 
+        
         return 'msg'
 
     return 'ok'
@@ -116,7 +113,7 @@ def test_webhook():
 
 
 '''
-chat_id = update.message.chat.id
+        chat_id = update.message.chat.id
         msg_id = update.message.message_id
 
         text = update.message.text.encode('utf-8').decode()
